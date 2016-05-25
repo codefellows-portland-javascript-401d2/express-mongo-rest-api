@@ -18,6 +18,22 @@ router
             res.json(monster);
           });
     })
+    
+    .put('/:name', bodyParser, (req, res) => {
+      const thisName = req.params.name;
+      Monster.findOneAndUpdate({name: thisName}, req.body, {new: true})
+          .then(monster => {
+            res.json({updated: monster});
+          });
+    })
+    
+    .delete('/:name', (req, res) => {
+      const thisName = req.params.name;
+      Monster.findOneAndRemove({name: thisName})
+          .then(monster => {
+            res.json({removed: monster});
+          });
+    })
 
     .post('/', bodyParser, (req, res) => {
       new Monster(req.body).save()
