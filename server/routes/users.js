@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser').json();
-const User = require('../models/user-schema.model.js');
+const User = require('../models/user-schema.model');
 
 let obj = {
   test: 'test'
@@ -25,3 +25,5 @@ router
   ,delete('/:id', (req, res) => {
     res.json(obj);
   });
+
+module.exports = router;

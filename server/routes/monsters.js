@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser').json();
-const Monster = require('../models/monster-schema');
+const Monster = require('../models/monster-schema.model');
 
 router
     .post('/', bodyParser, (req, res) => {
@@ -11,6 +11,6 @@ router
             console.log({error: err});
           });
     });
-    
-    
+
+
 module.exports = router;
