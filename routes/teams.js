@@ -1,23 +1,23 @@
-const router = require('express').Router();
-const bodyParser = require('body-parser');
-const Team = require('../models/team.js');
-
-router
-//.get
-
-
-//.post
-
-
-//.put
-
-
-//.delete
-
-
-//.patch
-
-module.exports = router;
+// const router = require('express').Router();
+// const bodyParser = require('body-parser');
+// const Team = require('../model/team.js');
+//
+// router
+// //.get
+//
+//
+// //.post
+//
+//
+// //.put
+//
+//
+// //.delete
+//
+//
+// //.patch
+//
+// module.exports = router;
 
 // GET: /teams/  ->  returns JSON list of all team names (and info?)
 // GET: /teams/<id>  ->  returns JSON object of id

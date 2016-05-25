@@ -1,4 +1,4 @@
-const mongoose = ('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var Skater = mongoose.model('Skater', new Schema( {

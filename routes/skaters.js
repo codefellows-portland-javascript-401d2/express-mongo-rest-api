@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser');
-const Skater = require('../models/skater.js');
+const Skater = require('../model/skater.js');
 
 router
   .get('/skaters', (req, res) => {
-    Skater.find().select('name number')
+    Skater.find(req).select('name number')
       .then((skaters) => {
         res.json(skaters);
       });
