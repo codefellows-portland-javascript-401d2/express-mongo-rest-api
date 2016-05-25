@@ -7,9 +7,9 @@ generator.nameGen = function(seed) {
     return `${select}-${suffix}`;
 }
 
-generator.levelGen = function(seed) {
-    const lvlArray = ['Private', 'Corporal', 'Sergeant', 'Sergeant Major', 'General', 'Major', 'Lieutenant Colonel', 'Captain', 'Lietenant'];
-    const select = lvlArray[Math.floor(seed * lvlArray.length)];
+generator.rankGen = function(seed) {
+    const rankArray = ['Private', 'Corporal', 'Sergeant', 'Sergeant Major', 'General', 'Major', 'Lieutenant Colonel', 'Captain', 'Lietenant'];
+    const select = rankArray[Math.floor(seed * rankArray.length)];
     return select;
 }
 
