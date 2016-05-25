@@ -1,5 +1,5 @@
 const mongoose = require( 'mongoose' );
-const dbURI = process.env.MONGO_URI || 'mongodb://localhost/pets'; 
+const dbURI = process.env.MONGO_URI || 'mongodb://localhost/';  // CHANGE!!!!
 
 mongoose.Promise = Promise;
 mongoose.connect( dbURI ); 
