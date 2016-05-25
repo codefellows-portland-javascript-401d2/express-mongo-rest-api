@@ -4,12 +4,12 @@
   "description": "Godzilla Monster database and community.",
   "main": "index.js",
   "directories": {
-    "test": "test"
+    "test": "server/test"
   },
   "scripts": {
     "start": "node index.js",
-    "test": "mocha",
-    "dev": "mocha -w"
+    "test": "mocha server/test",
+    "dev": "mocha -w server/test"
   },
   "repository": {
     "type": "git",
