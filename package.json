@@ -18,7 +18,8 @@
   "homepage": "https://github.com/DonChatelain/express-mongo-rest-api#readme",
   "dependencies": {
     "express": "^4.13.4",
-    "mongodb": "^2.1.20"
+    "mongodb": "^2.1.20",
+    "mongoose": "^4.4.19"
   },
   "devDependencies": {
     "chai": "^3.5.0",
