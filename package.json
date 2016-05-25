@@ -1,16 +1,24 @@
 {
-  "name": "mongo-rest-api",
+  "name": "express-mongo-rest-api",
   "version": "1.0.0",
-  "description": "Godzilla Monster database and community",
+  "description": "Godzilla Monster database and community.",
   "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
-    "test": "mocha"
+    "start": "node index.js",
+    "test": "mocha",
+    "dev": "mocha -w"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DonChatelain/express-mongo-rest-api.git"
   },
-  "author": "Don Chatelain",
+  "author": "Don Chatelain (https://github.com/DonChatelain)",
+  "contributors": [
+    "Johnny Luangphasy (https://github.com/jluangphasy)"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/DonChatelain/express-mongo-rest-api/issues"

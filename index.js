@@ -1,6 +1,6 @@
-const User = require('./user');
+const app = require('./server/app');
+const port = process.env.PORT || 8080;
 
-for (var i = 0; i < 10; i++) {
-    var user = new User(Math.random());
-    console.log(`${user.name} ==> ${user.level} ==> ${user.dateJoined}`);
-}
+app.listen(port, () => {
+  console.log(`Server started on http://localhost:${port}/`);
+});
