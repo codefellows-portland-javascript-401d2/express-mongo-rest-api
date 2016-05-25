@@ -1,5 +1,5 @@
 
-Assignment: 
+Assignment:
 Create a rest API with Express that's backed by Mongo with two resources (for example, /users and /birds).
 Be sure to implement full REST operations for each resource
 Enforce required fields and validation and return meaningful errors.
@@ -20,7 +20,7 @@ Skaters
 - team (foreign object)
 - position [ ]
 - captain (bool)
-- retired 
+- retired
 
 Teams
 - team name (required)
@@ -30,7 +30,7 @@ Teams
 
 - rank
 - current wins
-- current losses 
+- current losses
 
 (- array of skaters???)
 (- array of matches, dates???)
@@ -67,23 +67,18 @@ End Points:
 
 GET: /teams/  ->  returns JSON list of all team names (and info?)
 GET: /teams/<id>  ->  returns JSON object of id
-POST: /teams/ (JSON body)  ->  returns JSON object (with db generated fields like _id)  
+POST: /teams/ (JSON body)  ->  returns JSON object (with db generated fields like id)  
 DELETE: /teams/<id>  ->  returns JSON object ... or .... JSON message with name and id of deleted object
-PUT: /teams/<id> (JSON body)  ->  returns JSON object 
+PUT: /teams/<id> (JSON body)  ->  returns JSON object
 
 GET: /skaters/  ->  returns JSON list of all skater names (and info?)
 GET: /skaters/<id>  ->  returns JSON object of id
-POST: /skaters/ (JSON body)  ->  returns JSON object (with db generated fields like _id)  
+POST: /skaters/ (JSON body)  ->  returns JSON object (with db generated fields like id)  
 DELETE: /skaters/<id>  ->  returns JSON object ... or .... JSON message with name and id of deleted object
-PUT: /skaters/<id> (JSON body)  ->  returns JSON object 
+PUT: /skaters/<id> (JSON body)  ->  returns JSON object
 
 ... and...
 
-Teams stats? 
+Teams stats?
 List of team skaters with stats?
 Enter a match result? t
-
-
-
-
-
