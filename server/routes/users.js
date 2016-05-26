@@ -1,29 +1,75 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser').json();
-const User = require('../models/user-schema.model');
-
-let obj = {
-  test: 'test'
-};
+const User = require('../models/user.model');
+const regex = require('../lib/regex.js');
 
 router
   .get('/', (req, res) => {
-    res.json(obj);
+    User
+      .find()
+      .then(users => {
+        res.json({
+          status: 'success',
+          results: users
+        });
+      });
   })
-  .get('/:id', (req, res) => {
-    res.json(obj);
+  .get('/:name', (req, res) => {
+    User
+      .findOne({
+        name: {
+          $regex: regex.new(`^${req.params.name}`)
+        }
+      })
+      .then(user => {
+        res.json({
+          status: 'success',
+          results: user
+        });
+      });
   });
 
 router
   .use(bodyParser)
   .post('/', (req, res) => {
-    res.json(obj);
+    new User(req.body)
+      .save()
+      .then(data => {
+        res.json({
+          status: 'success',
+          results: data
+        });
+      });
   })
-  .put('/:id', (req, res) => {
-    res.json(obj);
+  // Update everything or create
+  .put('/:name', (req, res) => {
+    User
+      .findOneAndUpdate(
+        {name: req.params.name},
+        req.body,
+        {new: true}
+      )
+      .then(user => {
+        res.json({
+          status: 'success',
+          results: user
+        });
+      });
   })
-  ,delete('/:id', (req, res) => {
-    res.json(obj);
+  // Update one field
+  .patch('/:name', (req, res) => {
+  })
+  ,delete('/:name', (req, res) => {
+    User
+      .findOneAndRemove({
+        name: req.params.name
+      })
+      .then(user => {
+        res.json({
+          status: 'success',
+          results: user
+        });
+      });
   });
 
 module.exports = router;

@@ -7,7 +7,7 @@
     "test": "server/test"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "test": "mocha server/test",
     "dev": "mocha -w server/test"
   },
