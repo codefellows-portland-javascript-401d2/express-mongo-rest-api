@@ -6,6 +6,14 @@ var byId = function(req){
   return {_id: req.params.id};
 };
 
+function parseErrorMessage (err){
+  var errorMessage = 'Error in your JSON input:\n';
+  for (var i=0; i< Object.keys(err.errors).length; i++){
+    errorMessage += err.errors[Object.keys(err.errors)[i]].message + '\n';
+  }
+  return errorMessage;
+}
+
 router
   .get('/skaters', (req, res) => {
     Skater.find().select('name number')
@@ -28,14 +36,13 @@ router
       });
   })
 
-  .post('/skaters', bodyParser, (req, res) =>{
+  .post('/skaters', bodyParser, (req, res, next) =>{
     new Skater(req.body).save()
       .then((skaters) => {
         res.json(skaters);
       })
-      .catch(err =>{
-        console.log(err);
-        res.json(err);
+      .catch( err =>{
+        next(parseErrorMessage(err));
       });
   });
 
