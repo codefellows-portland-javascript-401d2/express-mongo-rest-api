@@ -1,17 +1,37 @@
 const router = require('express').Router();
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser').json();
 const Skater = require('../model/skater.js');
+
+var byId = function(req){
+  return req.params.id;
+};
 
 router
   .get('/skaters', (req, res) => {
-    Skater.find(req).select('name number')
+    Skater.find().select('name number')
       .then((skaters) => {
         res.json(skaters);
       });
+  })
+
+  .get('/skaters/:id',(req, res) => {
+    Skater.findOne(byId(req))
+      .then((skaters) => {
+        res.json(skaters);
+      });
+  })
+
+  .post('/skaters', bodyParser, (req, res) =>{
+    new Skater(req.body).save()
+      .then((skater) => {
+        res.json(skater);
+      })
+      .catch(err =>{
+        console.log(err);
+        res.json(err);
+      });
   });
 
-
-//.post
 
 
 //.put
