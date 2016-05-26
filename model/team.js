@@ -8,8 +8,16 @@ var Team = mongoose.model('Team', new Schema({
     required: true
   },
   color: {
-    base: String,
-    accent: String
+    base: {
+      type: String,
+      enum: ['green', 'gold', 'red', 'b&w checkers', 'black', 'pink', 'blue', 'silver'],
+      required: true
+    },
+    accent:{
+      type: String,
+      enum: ['green', 'gold', 'red', 'b&w checkers', 'black', 'pink', 'blue', 'silver'],
+      required: true
+    }
   },
   mascot: {
     type: String
