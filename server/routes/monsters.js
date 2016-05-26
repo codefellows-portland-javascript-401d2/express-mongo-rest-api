@@ -7,7 +7,10 @@ router
     .get('/', (req, res) => {
       Monster.find()  
           .then(list => {
-            res.json(list);
+            if (list.length > 0) {
+              res.json({result: list});
+            } else 
+              res.json({result: 'There are no monster yet. Post here to start adding some.'});
           });
     })
     
@@ -15,7 +18,14 @@ router
       const thisName = req.params.name;
       Monster.find({name: thisName})
           .then(monster => {
-            res.json(monster);
+            if (monster.length === 0) {
+              res.status(404);
+              res.json({result: '404: Resource Not Found'});
+            } 
+            else {
+              res.status(200);
+              res.json({result: monster});
+            }
           });
     })
     
@@ -31,7 +41,11 @@ router
       const thisName = req.params.name;
       Monster.findOneAndRemove({name: thisName})
           .then(monster => {
-            res.json({removed: monster});
+            if (monster !== null) res.json({removed: monster});
+            else {
+              res.json({error: 'Requested monster does not exist.'});
+              res.status(404);
+            }
           });
     })
 
@@ -40,8 +54,11 @@ router
           .then(data => {
             res.json({posted: data});
           }).catch(err => {
-            console.log({error: err});
-          });
+            console.log(err);
+            var key = Object.keys(err.errors);
+            res.json({error: err.errors[key].message});
+          });   //specific validation errors in res.send()
     });
 
 module.exports = router;
+
