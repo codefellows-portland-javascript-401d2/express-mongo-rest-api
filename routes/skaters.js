@@ -3,7 +3,7 @@ const bodyParser = require('body-parser').json();
 const Skater = require('../model/skater.js');
 
 var byId = function(req){
-  return req.params.id;
+  return {_id: req.params.id};
 };
 
 router
@@ -23,8 +23,8 @@ router
 
   .post('/skaters', bodyParser, (req, res) =>{
     new Skater(req.body).save()
-      .then((skater) => {
-        res.json(skater);
+      .then((skaters) => {
+        res.json(skaters);
       })
       .catch(err =>{
         console.log(err);
