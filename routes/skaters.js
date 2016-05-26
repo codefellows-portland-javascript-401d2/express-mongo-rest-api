@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const Skater = require('../model/skater.js');
 
 router
-  .get('/skaters', (req, res) => {
-    Skater.find(req).select('name number')
+  .get('/', (req, res) => {
+    Skater.find().select()
       .then((skaters) => {
         res.json(skaters);
       });
