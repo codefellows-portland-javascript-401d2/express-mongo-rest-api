@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const positions = ['blocker', 'pivot', 'jammer'];
+
 var Skater = mongoose.model('Skater', new Schema( {
 
   name: {
@@ -16,7 +18,12 @@ var Skater = mongoose.model('Skater', new Schema( {
     ref: 'Team'
   },
   positions: {
-    type: [String]
+    type: [
+      {
+        type: String,
+        enum: positions
+      }
+    ]
   },
   captain: {
     type: Boolean

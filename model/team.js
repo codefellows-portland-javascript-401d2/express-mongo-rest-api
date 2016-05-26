@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const colorPalette = ['green', 'gold', 'red', 'b&w checkers', 'black', 'pink', 'blue', 'silver'];
+
 var Team = mongoose.model('Team', new Schema({
 
   name: {
@@ -10,12 +12,12 @@ var Team = mongoose.model('Team', new Schema({
   color: {
     base: {
       type: String,
-      enum: ['green', 'gold', 'red', 'b&w checkers', 'black', 'pink', 'blue', 'silver'],
+      enum: colorPalette,
       required: true
     },
     accent:{
       type: String,
-      enum: ['green', 'gold', 'red', 'b&w checkers', 'black', 'pink', 'blue', 'silver'],
+      enum: colorPalette,
       required: true
     }
   },
