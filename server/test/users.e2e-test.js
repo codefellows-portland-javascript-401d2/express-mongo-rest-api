@@ -25,9 +25,9 @@ describe('End to end testing for users', () => {
         assert.property(resParse, 'status');
         assert.property(resParse, 'results');
         assert.equal(resParse.status, 'success');
-        assert.isArray(resParsed.results);
+        assert.isArray(resParse.results);
 
-        resParsed.results.forEach(user => {
+        resParse.results.forEach(user => {
           assert.property(user, '_id');
           assert.property(user, 'name');
           assert.property(user, 'favoriteMonsters');

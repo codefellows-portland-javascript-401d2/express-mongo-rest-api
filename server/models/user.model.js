@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema(
     },
     favoriteMonsters: {
       type: Array,
-      required: false
+      required: false,
+      default: []
     }
   },
   {

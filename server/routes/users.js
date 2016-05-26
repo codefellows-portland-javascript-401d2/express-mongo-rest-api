@@ -18,7 +18,7 @@ router
     User
       .findOne({
         name: {
-          $regex: regex.new(`^${req.params.name}`)
+          $regex: regex.new(req.params.name)
         }
       })
       .then(user => {
@@ -41,13 +41,12 @@ router
         });
       });
   })
-  // Update everything or create
   .put('/:name', (req, res) => {
     User
       .findOneAndUpdate(
-        {name: req.params.name},
+        { name: req.params.name},
         req.body,
-        {new: true}
+        { new: true, upsert: true }
       )
       .then(user => {
         res.json({
@@ -56,19 +55,37 @@ router
         });
       });
   })
-  // Update one field
   .patch('/:name', (req, res) => {
-  })
-  ,delete('/:name', (req, res) => {
     User
-      .findOneAndRemove({
-        name: req.params.name
-      })
+      .findOneAndUpdate(
+        { name: req.params.name },
+        req.body,
+        { new: true }
+      )
       .then(user => {
         res.json({
           status: 'success',
           results: user
         });
+      });
+  })
+  .delete('/:name', (req, res) => {
+    User
+      .findOneAndRemove({
+        name: regex.new(req.params.name)
+      })
+      .then(user => {
+        if (user) {
+          res.json({
+            status: 'success',
+            results: user
+          });
+        } else {
+          res.json({
+            status: 'error',
+            results: 'Not found.'
+          });
+        }
       });
   });
 
