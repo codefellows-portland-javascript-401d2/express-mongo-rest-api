@@ -7,13 +7,9 @@ var Team = mongoose.model('Team', new Schema({
     type: String,
     required: true
   },
-  baseColor: {
-    type: String,
-    required: true
-  },
-  accentColor: {
-    type: String,
-    required: true
+  color: {
+    base: String,
+    accent: String
   },
   mascot: {
     type: String
