@@ -1,8 +1,8 @@
 db.skaters.insert({name: "Feliz Brutality",
-number: 48,
-position: ["jammer"],
-captain: false,
-team: "HR"
+	number: 48,
+	position: ["jammer"],
+	captain: false,
+	team: "HR"
 });
 
 db.skaters.insert({name:"Skeeve Holt!",
