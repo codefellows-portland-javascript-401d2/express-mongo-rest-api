@@ -12,15 +12,24 @@ function updateMatchRecord(teamID, type, cb){
 
 router
   .patch('/', (req, res, next) => {
+    if ((!req.body.winner) || (!req.body.loser)) {
+      next('Failed to parse JSON');
+      return;
+    }
+    
     var returnArray = [];
     updateMatchRecord({_id: req.body.winner}, 'currentWins', (err, doc) => {
       if (err) next('Failed to save win');
-      returnArray.push(doc);
-      updateMatchRecord({_id: req.body.loser}, 'currentLosses', (err, doc) => {
-        if (err) next('Failed to save loss');
+      else{
         returnArray.push(doc);
-        res.send(returnArray);
-      });
+        updateMatchRecord({_id: req.body.loser}, 'currentLosses', (err, doc) => {
+          if (err) next('Failed to save loss');
+          else{
+            returnArray.push(doc);
+            res.send(returnArray);
+          }
+        });
+      }
     });
   });
 
