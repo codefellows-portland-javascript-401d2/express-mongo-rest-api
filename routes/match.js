@@ -16,7 +16,7 @@ router
       next('Failed to parse JSON');
       return;
     }
-    
+
     var returnArray = [];
     updateMatchRecord({_id: req.body.winner}, 'currentWins', (err, doc) => {
       if (err) next('Failed to save win');
@@ -32,7 +32,5 @@ router
       }
     });
   });
-
-  // .get('standings')
 
 module.exports = router;
