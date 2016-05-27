@@ -34,7 +34,7 @@ router
       });
   })
 
-  .put('/:id', (req, res, next) => {
+  .patch('/:id', (req, res, next) => {
     Skater.findOneAndUpdate(byId(req), req.body, [{new: true}, {upsert: true}])
       .then((skaters) => {
         res.json(skaters);
