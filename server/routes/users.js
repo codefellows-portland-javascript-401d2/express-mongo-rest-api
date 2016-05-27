@@ -8,10 +8,17 @@ router
     User
       .find()
       .then(users => {
-        res.json({
-          status: 'success',
-          results: users
-        });
+        let resObj = {
+          status: 'error',
+          result: 'There are no users yet. Post here to start adding some.'
+        };
+
+        if (users.length > 0) {
+          resObj.status = 'success';
+          resObj.result = users;
+        }
+
+        res.json(resObj);
       });
   })
   .get('/:name', (req, res) => {
@@ -22,10 +29,17 @@ router
         }
       })
       .then(user => {
-        res.json({
-          status: 'success',
-          results: user
-        });
+        let resObj = {
+          status: 'error',
+          result: `RESOURCE NOT FOUND: ${req.params.name} does not exist.`
+        };
+
+        if (user.length > 0) {
+          resObj.status = 'success';
+          resObj.result = user;
+        }
+
+        res.json(resObj);
       });
   });
 
@@ -34,10 +48,17 @@ router
   .post('/', (req, res) => {
     new User(req.body)
       .save()
-      .then(data => {
+      .then(user => {
         res.json({
-          status: 'success',
-          results: data
+          status: 'posted',
+          result: user
+        });
+      }).catch(err => {
+        let key = Object.keys(err.errors);
+
+        res.json({
+          status: 'error',
+          result: err.errors[key].message
         });
       });
   })
@@ -46,26 +67,42 @@ router
       .findOneAndUpdate(
         { name: req.params.name},
         req.body,
-        { new: true, upsert: true }
+        { new: true, upsert: true, runValidators: true }
       )
       .then(user => {
         res.json({
-          status: 'success',
-          results: user
+          status: 'updated',
+          result: user
+        });
+      })
+      .catch(err => {
+        let key = Object.keys(err.errors);
+
+        res.json({
+          status: 'error',
+          result: err.errors[key].message
         });
       });
   })
   .patch('/:name', (req, res) => {
     User
       .findOneAndUpdate(
-        { name: req.params.name },
+        { name: req.params.name},
         req.body,
-        { new: true }
+        { new: true, upsert: true, runValidators: true }
       )
       .then(user => {
         res.json({
-          status: 'success',
-          results: user
+          status: 'updated',
+          result: user
+        });
+      })
+      .catch(err => {
+        let key = Object.keys(err.errors);
+
+        res.json({
+          status: 'error',
+          result: err.errors[key].message
         });
       });
   })
@@ -75,17 +112,17 @@ router
         name: regex.new(req.params.name)
       })
       .then(user => {
+        let resObj = {
+          status: 'error',
+          result: `RESOURCE NOT FOUND: ${user} does not exist.`
+        };
+
         if (user) {
-          res.json({
-            status: 'success',
-            results: user
-          });
-        } else {
-          res.json({
-            status: 'error',
-            results: 'Not found.'
-          });
+          resObj.status = 'deleted';
+          resObj.result = user;
         }
+
+        res.json(resObj);
       });
   });
 
