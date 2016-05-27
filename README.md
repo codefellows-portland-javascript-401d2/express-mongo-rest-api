@@ -37,13 +37,15 @@ GET /monsters
 GET /monsters/:name
 ```
 
-#### Get total destruction of all monsters
+#### Get the total of cities-razed pulled from each monster.
 
 ```
 GET /monsters/totalDestruction
 ```
 
 #### Create monster
+Format: {name: *string*, citiesRazed: *number*}
+* Name is required and citiesRazed must be a positive value.
 
 ```
 POST /monsters
@@ -77,9 +79,12 @@ GET /users/:name
 ```
 
 #### Create user
+Format: {name: *string*, favoriteMonsters: *array*}
+* Name field required
 
 ```
 POST /users
+
 ```
 
 #### Update user
