@@ -42,6 +42,16 @@ router
       });
   })
 
+  .delete('/:id', (req, res, next) => {
+    Skater.findOneAndRemove(byId(req))
+      .then((skaters) => {
+        res.send(`${skaters.name} has been removed from the database.`);
+      })
+      .catch(() => {
+        next('Failed to find a matching skater ID');
+      });
+  })
+
   .post('/', (req, res, next) =>{
     new Skater(req.body).save()
       .then((skaters) => {
@@ -56,6 +66,4 @@ router
 //.patch
 
 module.exports = router;
-// POST: /skaters/ (JSON body)  ->  returns JSON object (with db generated fields like id)
 // DELETE: /skaters/<id>  ->  returns JSON object ... or .... JSON message with name and id of deleted object
-// PUT: /skaters/<id> (JSON body)  ->  returns JSON object
