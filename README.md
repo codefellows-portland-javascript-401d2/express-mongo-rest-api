@@ -31,6 +31,8 @@ Written with Express, MongoDB, and Mongoose
 
 `GET /teams/:id` return single team by id
 
+`GET /teams/:id/roster` return all skaters on a single team
+
 `PATCH /teams/:id` update/modify single team by id
 
 `DELETE /team/:id` delete single team, return confirmation of deletion
