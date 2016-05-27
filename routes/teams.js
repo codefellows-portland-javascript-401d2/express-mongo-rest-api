@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const Team = require('../model/team.js');
 
+var byId = function(req){
+  return {_id: req.params.id};
+};
+
 router
 .get('/', (req, res) => {
   const query = req.query.rank ? {rank: req.query.rank} : {};
@@ -11,7 +15,7 @@ router
 })
 
 .get('/:id', (req, res, next) => {
-  Team.findOne(req.params.id)
+  Team.findOne(byId(req))
     .then((team) => {
       res.json(team);
     })
@@ -21,7 +25,7 @@ router
 })
 
 .patch('/:id', (req, res, next) => {
-  Team.findOneAndUpdate(req.params.id, req.body, [{new: true}, {upsert: true}])
+  Team.findOneAndUpdate(byId(req), req.body, [{new: true}, {upsert: true}])
     .then((team) => {
       res.json(team);
     })
@@ -31,7 +35,7 @@ router
 })
 
 .delete('/:id', (req, res, next) => {
-  Team.findOneAndRemove(req.params.id)
+  Team.findOneAndRemove(byId(req))
     .then((team) => {
       res.send(`${team.name} has been removed from the database.`);
     })
