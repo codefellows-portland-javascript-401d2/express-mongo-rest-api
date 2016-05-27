@@ -6,7 +6,7 @@ const app = require('../lib/app');
 
 chai.use(chaiHttp);
 
-var connection = mongoose('mongodb://localhost/rose-city-rollers');
+var connection = mongoose(process.env.M_LAB_MONGO_URI || 'mongodb://localhost/rose-city-rollers');
 connection.beQuietEslint = true;
 
 const skater1 = {
