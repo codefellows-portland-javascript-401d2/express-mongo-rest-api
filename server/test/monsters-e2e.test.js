@@ -2,7 +2,7 @@ const chai = require('chai');
 const assert = chai.assert;
 const chaiHttp = require('chai-http');
 const database = require('../lib/database');
-const Monster = require('../models/monster-schema.model');
+const Monster = require('../models/monster.model');
 const dbUri = process.env.DB_URI || 'mongodb://localhost/godzilla';
 const app = require('../app');
 database.connect(dbUri);

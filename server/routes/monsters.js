@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser').json();
-const Monster = require('../models/monster-schema.model');
+const Monster = require('../models/monster.model');
 const getTotalRazed = require('../lib/get-total-razed');
 
 router
