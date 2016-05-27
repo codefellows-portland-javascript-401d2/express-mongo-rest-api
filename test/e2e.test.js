@@ -54,7 +54,7 @@ describe('End to End test', () => {
           assert.equal(res.statusCode, 200);
           assert.equal(res.headers['content-type'], 'application/json; charset=utf-8');
           assert.property(JSON.parse(res.text)[0], 'name', 'has required name field');
-          assert.property(JSON.parse(res.text)[0], 'number', 'had required number field');
+          assert.property(JSON.parse(res.text)[0], 'number', 'has required number field');
           done();
         });
     });
