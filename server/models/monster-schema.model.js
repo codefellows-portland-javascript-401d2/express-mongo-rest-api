@@ -8,7 +8,8 @@ var monsterSchema = mongoose.model('Monster', new Schema({
   },
   citiesRazed: {
     type: Number,
-    min: [0, 'citiesRazed cannot be a negative value']
+    min: [0, 'citiesRazed cannot be a negative value'],
+    default: 0
   }
 
 }));

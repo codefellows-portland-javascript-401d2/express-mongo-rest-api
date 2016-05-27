@@ -10,7 +10,7 @@ router
             if (list.length > 0) {
               res.json({result: list});
             } else 
-              res.json({result: 'There are no monster yet. Post here to start adding some.'});
+              res.json({result: 'There are no monsters yet. Post here to start adding some.'});
           });
     })
     
@@ -29,7 +29,30 @@ router
           });
     })
     
+    .post('/', bodyParser, (req, res) => {
+      new Monster(req.body).save()
+          .then(data => {
+            res.json({posted: data});
+          }).catch(err => {
+            var key = Object.keys(err.errors);
+            res.json({error: err.errors[key].message});
+          });   //specific validation errors in res.send()
+    })
+    
     .put('/:name', bodyParser, (req, res) => {
+      const thisName = req.params.name;
+      Monster.findOneAndUpdate({name: thisName}, req.body, 
+        {new: true, upsert: true, runValidators: true})
+          .then(monster => {
+            res.json({updated: monster});
+          })
+          .catch(err => {
+            var key = Object.keys(err.errors);
+            res.json({error: err.errors[key].message});
+          });
+    })
+    
+    .patch('/:name', bodyParser, (req, res) => {
       const thisName = req.params.name;
       Monster.findOneAndUpdate({name: thisName}, req.body, {new: true})
           .then(monster => {
@@ -47,18 +70,8 @@ router
               res.status(404);
             }
           });
-    })
-
-    .post('/', bodyParser, (req, res) => {
-      new Monster(req.body).save()
-          .then(data => {
-            res.json({posted: data});
-          }).catch(err => {
-            console.log(err);
-            var key = Object.keys(err.errors);
-            res.json({error: err.errors[key].message});
-          });   //specific validation errors in res.send()
     });
+
 
 module.exports = router;
 
