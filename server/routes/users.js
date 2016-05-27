@@ -34,7 +34,7 @@ router
           result: `RESOURCE NOT FOUND: ${req.params.name} does not exist.`
         };
 
-        if (user.length > 0) {
+        if (user) {
           resObj.status = 'success';
           resObj.result = user;
         }
