@@ -5,7 +5,7 @@ const colorPalette = ['green', 'gold', 'red', 'b&w checkers', 'black', 'pink', '
 
 var Team = mongoose.model('Team', new Schema({
 
-  name: {
+  teamName: {
     type: String,
     required: true
   },

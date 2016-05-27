@@ -16,6 +16,9 @@
     "url": "git+https://github.com/araedavis/express-mongo-rest-api.git"
   },
   "author": "allison davis",
+  "contributors": {
+    "name": "Dave Hanagan"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/araedavis/express-mongo-rest-api/issues"

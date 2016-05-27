@@ -58,12 +58,8 @@ router
         res.json(skaters);
       })
       .catch( err =>{
-        next(parseValidationMessage(err));
+        next(err);
       });
   });
 
-
-//.patch
-
 module.exports = router;
-// DELETE: /skaters/<id>  ->  returns JSON object ... or .... JSON message with name and id of deleted object
