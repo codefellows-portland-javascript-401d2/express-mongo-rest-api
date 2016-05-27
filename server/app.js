@@ -1,8 +1,9 @@
 const express = require('express');
-const app = express();
 const handlers = require('./routes/handlers');
 const users = require('./routes/users');
 const monsters = require('./routes/monsters');
+
+const app = express();
 
 app.set('case sensitive routing', false);
 app.use(handlers.json);

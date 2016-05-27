@@ -1,7 +1,6 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-var monsterSchema = mongoose.model('Monster', new Schema({
+const monsterSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -11,7 +10,8 @@ var monsterSchema = mongoose.model('Monster', new Schema({
     min: [0, 'citiesRazed cannot be a negative value'],
     default: 0
   }
+});
 
-}));
+const monsterModel = mongoose.model('Monster', monsterSchema);
 
-module.exports = monsterSchema;
+module.exports = monsterModel;
