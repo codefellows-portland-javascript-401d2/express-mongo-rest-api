@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Team = require('../model/team.js');
+const Skater = require('../model/skater.js');
 
 var byId = function(req){
   return {_id: req.params.id};
@@ -21,6 +22,16 @@ router
     })
     .catch( () => {
       next('Failed to find a matching team ID');
+    });
+})
+
+.get('/:id/roster', (req, res, next) =>{
+  Skater.find({team: byId(req)})
+    .then((skaters) => {
+      res.json(skaters);
+    })
+    .catch( () => {
+      next('Error: No skaters found');
     });
 })
 
