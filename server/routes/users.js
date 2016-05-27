@@ -1,7 +1,10 @@
-const router = require('express').Router();
-const bodyParser = require('body-parser').json();
+const express = require('express');
+const bodyParser = require('body-parser');
 const User = require('../models/user.model');
 const regex = require('../lib/regex.js');
+
+const router = express.Router();
+const bodyParserJson = bodyParser.json();
 
 router
   .get('/', (req, res) => {
@@ -44,7 +47,7 @@ router
   });
 
 router
-  .use(bodyParser)
+  .use(bodyParserJson)
   .post('/', (req, res) => {
     new User(req.body)
       .save()
