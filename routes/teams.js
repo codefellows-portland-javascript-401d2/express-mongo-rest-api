@@ -37,7 +37,7 @@ router
 .delete('/:id', (req, res, next) => {
   Team.findOneAndRemove(byId(req))
     .then((team) => {
-      res.send(`${team.name} has been removed from the database.`);
+      res.send(`${team.teamName} has been removed from the database.`);
     })
     .catch(() => {
       next('Failed to find a matching skater ID');
