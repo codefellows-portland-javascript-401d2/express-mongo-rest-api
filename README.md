@@ -21,7 +21,7 @@ __Team Members__: [Don](https://github.com/DonChatelain), [Johnny](https://githu
 
 ## API
 
-All requests must have `content-type="application/json"` in headers.
+All requests must have `application/json` for `content-type` in the headers.
 
 ### Monsters
 
