@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser').json();
 const Monster = require('../models/monster-schema.model');
+const getTotalRazed = require('../lib/get-total-razed');
 
 router
 
@@ -14,8 +15,9 @@ router
           });
     })
     
-    .get('/:name', (req, res) => {
+    .get('/:name', (req, res, next) => {
       const thisName = req.params.name;
+      if (thisName === 'totalDestruction') next();
       Monster.find({name: thisName})
           .then(monster => {
             if (monster.length === 0) {
@@ -27,6 +29,20 @@ router
               res.json({result: monster});
             }
           });
+    })
+    
+    // collects all citiesRazed data from monster entries and return the SUM
+    .get('/totalDestruction', (req, res) => {
+      Monster.find({})
+        .then(list => {
+          var totals = getTotalRazed(list);
+          res.json({
+            total_cities_razed: totals.sum,
+            list: totals.list 
+          });
+        }).catch(err => {
+          res.json({error: err});
+        });
     })
     
     .post('/', bodyParser, (req, res) => {
