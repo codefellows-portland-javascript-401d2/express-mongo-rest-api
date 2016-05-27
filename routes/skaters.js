@@ -57,8 +57,8 @@ router
       .then((skaters) => {
         res.json(skaters);
       })
-      .catch( err =>{
-        next(err);
+      .catch((err) => {
+        next(parseValidationMessage(err));
       });
   });
 

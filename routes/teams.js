@@ -43,9 +43,9 @@ router
   new Team(req.body).save()
     .then((team) => {
       res.json(team);
-    });
+    })
     .catch( err =>{
-      next(parseValidationMessage(err));
+      next(err);
     });
 });
 
