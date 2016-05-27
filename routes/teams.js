@@ -3,7 +3,8 @@ const Team = require('../model/team.js');
 
 router
 .get('/', (req, res) => {
-  Team.find().select('teamName rank')
+  const query = req.query.rank ? {rank: req.query.rank} : {};
+  Team.find(query).select('teamName rank')
     .then((teams) => {
       res.json(teams);
     });

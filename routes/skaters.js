@@ -16,7 +16,9 @@ function parseValidationMessage (err){
 
 router
   .get('/', (req, res) => {
-    Skater.find().select('name number')
+    const query = req.query.retired ? {retired: req.query.retired} : {};
+    //tried to look into query string for positions (array)
+    Skater.find(query).select('name number')
       .then((skaters) => {
         res.json(skaters);
       });
