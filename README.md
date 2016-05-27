@@ -2,6 +2,8 @@
 
 Written with Express, MongoDB, and Mongoose
 
+### match
+`/match` enter winning and losing team IDs as PATCH request to increment teams' win/loss records
 
 ### teams
 ##### Model Sample
@@ -32,6 +34,8 @@ Written with Express, MongoDB, and Mongoose
 `PATCH /teams/:id` update/modify single team by id
 
 `DELETE /team/:id` delete single team, return confirmation of deletion
+
+Note: team rank and win/loss record taken from 2016 season data
 
 ### skaters
 ##### Model Sample
