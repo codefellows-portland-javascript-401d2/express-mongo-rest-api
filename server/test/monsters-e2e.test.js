@@ -23,7 +23,7 @@ describe('end to end testing', () => {
             .send({name: monster, citiesRazed: 25})
             .end((err, res) => {
               var resObj = JSON.parse(res.text);
-              assert.equal(resObj.posted.name, monster);
+              assert.equal(resObj.result.name, monster);
               done(); 
             });
         
@@ -49,7 +49,7 @@ describe('end to end testing', () => {
         .get('/monsters/totalDestruction')
         .end((err, res) => {
           var parse = JSON.parse(res.text);
-          var resTotal = parse.total_cities_razed;
+          var resTotal = parse.result.total_cities_razed;
           assert.equal(resTotal, expected);
           done();
         });
@@ -62,7 +62,7 @@ describe('end to end testing', () => {
         .send({'citiesRazed': 300})
         .end((err, res) => {
           const parsed = JSON.parse(res.text);
-          assert.deepEqual(parsed.error, expected);
+          assert.deepEqual(parsed.result, expected);
           done();
         });
   });
@@ -74,7 +74,7 @@ describe('end to end testing', () => {
         .send({'name': 'Zilla', 'citiesRazed': -1})
         .end((err, res) => {
           const parsed = JSON.parse(res.text);
-          assert.deepEqual(parsed.error, expected);
+          assert.deepEqual(parsed.result, expected);
           done();
         });
   });  
@@ -112,7 +112,7 @@ describe('end to end testing', () => {
               .del('/monsters/Mothra')
               .then(() => {
                 request.get('/monsters')
-                    .end((err, res) => {
+                    .end((err, res) => {                
                       var parsed = JSON.parse(res.text);
                       assert.equal(parsed.result, expected);
                       done();

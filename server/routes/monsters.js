@@ -9,9 +9,9 @@ router
       Monster.find()  
           .then(list => {
             if (list.length > 0) {
-              res.json({result: list});
+              res.json({status: 'success', result: list});
             } else 
-              res.json({result: 'There are no monsters yet. Post here to start adding some.'});
+              res.json({status: 'error', result: 'There are no monsters yet. Post here to start adding some.'});
           });
     })
     
@@ -22,11 +22,11 @@ router
           .then(monster => {
             if (monster.length === 0) {
               res.status(404);
-              res.json({result: '404: Resource Not Found'});
+              res.json({status: 'error', result: '404: Resource Not Found'});
             } 
             else {
               res.status(200);
-              res.json({result: monster});
+              res.json({status: 'success', result: monster});
             }
           });
     })
@@ -37,21 +37,24 @@ router
         .then(list => {
           var totals = getTotalRazed(list);
           res.json({
-            total_cities_razed: totals.sum,
-            list: totals.list 
+            status: 'success',
+            result: {
+              total_cities_razed: totals.sum,
+              list: totals.list 
+            }
           });
         }).catch(err => {
-          res.json({error: err});
+          res.json({status: 'error', result: err});
         });
     })
     
     .post('/', bodyParser, (req, res) => {
       new Monster(req.body).save()
           .then(data => {
-            res.json({posted: data});
+            res.json({status: 'posted', result: data});
           }).catch(err => {
             var key = Object.keys(err.errors);
-            res.json({error: err.errors[key].message});
+            res.json({status: 'error', result: err.errors[key].message});
           });   //specific validation errors in res.send()
     })
     
@@ -60,19 +63,24 @@ router
       Monster.findOneAndUpdate({name: thisName}, req.body, 
         {new: true, upsert: true, runValidators: true})
           .then(monster => {
-            res.json({updated: monster});
+            res.json({status: 'updated', result: monster});
           })
           .catch(err => {
             var key = Object.keys(err.errors);
-            res.json({error: err.errors[key].message});
+            res.json({status: 'error', result: err.errors[key].message});
           });
     })
     
     .patch('/:name', bodyParser, (req, res) => {
       const thisName = req.params.name;
-      Monster.findOneAndUpdate({name: thisName}, req.body, {new: true})
+      Monster.findOneAndUpdate({name: thisName}, req.body, 
+        {new: true, upsert: true, runValidators: true})
           .then(monster => {
-            res.json({updated: monster});
+            res.json({status: 'updated', result: monster});
+          })
+          .catch(err => {
+            var key = Object.keys(err.errors);
+            res.json({status: 'error', result: err.errors[key].message});
           });
     })
     
@@ -80,9 +88,9 @@ router
       const thisName = req.params.name;
       Monster.findOneAndRemove({name: thisName})
           .then(monster => {
-            if (monster !== null) res.json({removed: monster});
+            if (monster !== null) res.json({status: 'deleted', result: monster});
             else {
-              res.json({error: 'Requested monster does not exist.'});
+              res.json({status: 'error', result: 'Requested monster does not exist.'});
               res.status(404);
             }
           });
