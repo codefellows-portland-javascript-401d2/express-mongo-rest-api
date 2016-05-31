@@ -1,7 +1,9 @@
 ![cf](http://i.imgur.com/7v5ASc8.png) Code Fellows PDX 401 Fullstack Javscript
 ====
 
-Lab assignment instructions are located [here](LAB.md)
+Lab assignment instructions:
+* [Part 1](LAB.md)
+* [Part2 - Add Auth](LAB-part2.md)
 
 Remember to add _your_ .eslintrc file!
 
