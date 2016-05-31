@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.makeHash = function(pw) {
-  return this.password = bcrypt.hashSync(pw, 8);
+  return this.password = bcrypt.hashSync(pw);
 };
 
 userSchema.methods.checkHash = function(pw) {
