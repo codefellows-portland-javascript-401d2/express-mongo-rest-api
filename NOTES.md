@@ -82,3 +82,16 @@ PUT: /skaters/<id> (JSON body)  ->  returns JSON object
 Teams stats?
 List of team skaters with stats?
 Enter a match result? t
+
+---
+Auth lab
+create user schema: username, password (use bcrypt for hashing);
+
+Auth routes:
+/signup
+/login
+
+Lib:
+token.js (creating web tokens)
+ensureAuth (token checking logic)
+updating app.js to include auth files
