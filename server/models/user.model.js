@@ -1,18 +1,31 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
 
 const userSchema = new mongoose.Schema({
-  name: {
+  username : {
+    type: String,
+    required: true
+    // dropDups: true
+  },
+  password : {
     type: String,
     required: true
   },
-  favoriteMonsters: {
-    type: Array,
-    required: false,
-    default: []
+  admin : {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
 });
+
+userSchema.methods.makeHash = function(pw) {
+  return this.password = bcrypt.hashSync(pw, 8);
+};
+
+userSchema.methods.checkHash = function(pw) {
+  return bcrypt.compareSync(pw, this.password);
+};
 
 const userModel = mongoose.model('User', userSchema);
 

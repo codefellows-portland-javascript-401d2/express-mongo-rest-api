@@ -27,7 +27,7 @@ router
   .get('/:name', (req, res) => {
     User
       .findOne({
-        name: {
+        username: {
           $regex: regex.new(req.params.name)
         }
       })
@@ -112,7 +112,7 @@ router
   .delete('/:name', (req, res) => {
     User
       .findOneAndRemove({
-        name: regex.new(req.params.name)
+        username: regex.new(req.params.name)
       })
       .then(user => {
         let resObj = {

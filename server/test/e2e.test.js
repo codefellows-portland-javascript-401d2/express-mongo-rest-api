@@ -16,9 +16,7 @@ describe('End to End Testing', () => {
 
   before(done => {
     request = chai.request(app);
-
     database.connect(DB_URI);
-
     done();
   });
 
@@ -163,13 +161,15 @@ describe('End to End Testing', () => {
     });
 
     it('Posts one user to users collection', done => {
-      let userName = 'Johnny';
+      let myUserName = 'Johnny';
+      let myPassword = '123';
 
       request
         .post('/users')
         .set('content-type', 'application/json')
         .send({
-          name: userName
+          username: myUserName,
+          password: myPassword
         })
         .end((err, res) => {
           let resObj = JSON.parse(res.text);
@@ -180,10 +180,9 @@ describe('End to End Testing', () => {
           assert.property(resObj, 'result');
           assert.isObject(resObj.result);
           assert.property(resObj.result, '_id');
-          assert.property(resObj.result, 'name');
-          assert.equal(resObj.result.name, userName);
-          assert.property(resObj.result, 'favoriteMonsters');
-          assert.isArray(resObj.result.favoriteMonsters);
+          assert.property(resObj.result, 'username');
+          assert.equal(resObj.result.username, myUserName);
+          assert.property(resObj.result, 'password');
           assert.property(resObj.result, 'createdAt');
           assert.property(resObj.result, 'updatedAt');
 
@@ -192,13 +191,15 @@ describe('End to End Testing', () => {
     });
 
     it('Posts another user and gets two users', done => {
-      let userName = 'Don';
+      let myUserName = 'Don';
+      let myPassword = 'abc';
 
       request
         .post('/users')
         .set('content-type', 'application/json')
         .send({
-          name: userName
+          username: myUserName,
+          password: myPassword
         })
         .then(() => {
           request
@@ -229,9 +230,8 @@ describe('End to End Testing', () => {
 
           resObj.result.forEach(user => {
             assert.property(user, '_id');
-            assert.property(user, 'name');
-            assert.property(user, 'favoriteMonsters');
-            assert.isArray(user.favoriteMonsters);
+            assert.property(user, 'username');
+            assert.property(user, 'password');
             assert.property(user, 'createdAt');
             assert.property(user, 'updatedAt');
           });
@@ -241,12 +241,12 @@ describe('End to End Testing', () => {
     });
 
     it('Throws specific validation error on name requirement', done => {
-      let expected = 'Path `name` is required.';
+      let expected = 'Path `username` is required.';
 
       request
         .post('/users')
         .set('content-type', 'application/json')
-        .send({'favoriteMonsters': ['Mothra']})
+        .send({'password': 'secret123'})
         .end((err, res) => {
           let resObj = JSON.parse(res.text);
 
@@ -261,42 +261,43 @@ describe('End to End Testing', () => {
         .get('/users/johnny')
         .set('content-type', 'application/json')
         .end((err, res) => {
+
           let resObj = JSON.parse(res.text);
 
-          assert.equal(resObj.result.name, 'Johnny');
+          assert.equal(resObj.result.username, 'Johnny');
 
           done();
         });
     });
 
-    it('Puts "Destroyah" in favoriteMonsters array', done => {
-      request
-        .put('/users/Johnny')
-        .set('content-type', 'application/json')
-        .send({
-          favoriteMonsters: 'Destroyah'
-        })
-        .then(() => {
-          request
-            .get('/users/johnny')
-            .set('content-type', 'application/json')
-            .end((err, res) => {
-              let resObj = JSON.parse(res.text);
+    // it('Puts "Destroyah" in favoriteMonsters array', done => {
+    //   request
+    //     .put('/users/Johnny')
+    //     .set('content-type', 'application/json')
+    //     .send({
+    //       favoriteMonsters: 'Destroyah'
+    //     })
+    //     .then(() => {
+    //       request
+    //         .get('/users/johnny')
+    //         .set('content-type', 'application/json')
+    //         .end((err, res) => {
+    //           let resObj = JSON.parse(res.text);
 
-              assert.deepEqual(resObj.result.favoriteMonsters, ['Destroyah']);
+    //           assert.deepEqual(resObj.result.favoriteMonsters, ['Destroyah']);
 
-              done();
-            });
-        });
-    });
+    //           done();
+    //         });
+    //     });
+    // });
 
     it('Deletes one user, then the other', done => {
       request
-        .del('/users/Johnny')
+        .del('/users/johnny')
         .set('content-type', 'application/json')
         .then(() => {
           request
-            .del('/users/Don')
+            .del('/users/don')
             .set('content-type', 'application/json')
             .then(() => {
               request
