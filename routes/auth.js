@@ -7,7 +7,7 @@ const User = require('../model/user');
 router
 .post('/signup', bodyparser, (req, res) => {
 
-  // save pass, delete from 
+  // save pass, delete from
 
   // req body has user and pass
   // create new user, with user
