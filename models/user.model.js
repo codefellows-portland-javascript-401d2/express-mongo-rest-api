@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema({
   username : {
     type: String,
     required: true
-    // dropDups: true
   },
   password : {
     type: String,

@@ -1,12 +1,12 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const config = require('../config');
+const app = require('../lib/app');
 const database = require('../lib/database');
 const Monster = require('../models/monster.model');
 const User = require('../models/user.model');
-const app = require('../lib/app');
 
 const assert = chai.assert;
-const DB_URI = process.env.DB_URI || 'mongodb://localhost/godzilla';
 
 chai.use(chaiHttp);
 
@@ -16,7 +16,7 @@ describe('End to End Testing', () => {
 
   before(done => {
     request = chai.request(app);
-    database.connect(DB_URI);
+    database.connect(config.dbUri);
     done();
   });
 

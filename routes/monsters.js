@@ -4,7 +4,7 @@ const Monster = require('../models/monster.model');
 const getTotalRazed = require('../lib/get-total-razed');
 
 const router = express.Router();
-const bodyParserJson = bodyParser.json();
+const jsonParser = bodyParser.json();
 
 router
   .get('/', (req, res) => {
@@ -50,7 +50,7 @@ router
       });
   })
 
-  .post('/', bodyParserJson, (req, res) => {
+  .post('/', jsonParser, (req, res) => {
     new Monster(req.body).save()
       .then(data => {
         res.json({status: 'posted', result: data});
@@ -60,7 +60,7 @@ router
       });   //specific validation errors in res.send()
   })
 
-  .put('/:name', bodyParserJson, (req, res) => {
+  .put('/:name', jsonParser, (req, res) => {
     const thisName = req.params.name;
     Monster.findOneAndUpdate({name: thisName}, req.body,
       {new: true, upsert: true, runValidators: true})
@@ -73,7 +73,7 @@ router
         });
   })
 
-  .patch('/:name', bodyParserJson, (req, res) => {
+  .patch('/:name', jsonParser, (req, res) => {
     const thisName = req.params.name;
     Monster.findOneAndUpdate({name: thisName}, req.body,
       {new: true, upsert: true, runValidators: true})
