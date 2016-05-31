@@ -3,7 +3,7 @@ const chaiHttp = require('chai-http');
 const database = require('../lib/database');
 const Monster = require('../models/monster.model');
 const User = require('../models/user.model');
-const app = require('../app');
+const app = require('../lib/app');
 
 const assert = chai.assert;
 const DB_URI = process.env.DB_URI || 'mongodb://localhost/godzilla';

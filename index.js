@@ -1,5 +1,5 @@
-const app = require('./server/app');
-const database = require('./server/lib/database');
+const app = require('./lib/app');
+const database = require('./lib/database');
 
 const PORT = process.env.PORT || 8080;
 const DB_URI = process.env.DB_URI || 'mongodb://localhost/godzilla';
