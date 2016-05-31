@@ -11,33 +11,33 @@ chai.use(chaiHttp);
 var connection = mongoose(process.env.M_LAB_MONGO_URI || 'mongodb://localhost/rose-city-rollers');
 connection.beQuietEslint = true;
 
-const timeoutDuration = 10000;
-
-var user1Token = '';
-const user1 = {
-  username: 'Beth',
-  password: 'monstertrucks'
-};
-
-var skater1ID = '';
-const skater1 = {
-  name: 'Wendy Kill Kill Kill',
-  number: 99,
-  positions: ['jammer', 'pivot']
-};
-
-var team1ID = '';
-const team1 = {
-  teamName: 'Blood Spillers',
-  color: {base: 'black', accent: 'red'}
-};
-
-var request;
-
 describe('End to End test', () => {
 
+  const timeoutDuration = 10000;
+
+  var user1Token = '';
+  const user1 = {
+    username: 'Beth',
+    password: 'monstertrucks'
+  };
+
+  var skater1ID = '';
+  const skater1 = {
+    name: 'Wendy Kill Kill Kill',
+    number: 99,
+    positions: ['jammer', 'pivot']
+  };
+
+  var team1ID = '';
+  const team1 = {
+    teamName: 'Blood Spillers',
+    color: {base: 'black', accent: 'red'}
+  };
+
+  var request;
+
   before( done => {
-    request = chai.request(app.listen(8080));
+    request = chai.request(app.listen(process.env.PORT || 8080));
     done();
   });
 

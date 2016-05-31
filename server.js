@@ -1,6 +1,6 @@
 const mongoose = require('./lib/setup-mongoose');
 const app = require('./lib/app');
-const port = 8080;    //any merit to setting env right now?
+const port = process.env.PORT || 8080;    //any merit to setting env right now?
 
 mongoose(process.env.M_LAB_MONGO_URI || 'mongodb://localhost/rose-city-rollers');
 

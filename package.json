@@ -9,7 +9,8 @@
   "scripts": {
     "test": "npm run unit-test && npm run lint",
     "lint": "eslint .",
-    "unit-test": "mocha"
+    "unit-test": "mocha",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
     "gulp": "^3.9.1",
     "gulp-eslint": "^2.0.0",
     "gulp-spawn-mocha": "^2.2.2",
-    "mocha": "^2.5.3"
+    "mocha": "^2.5.3",
+    "nodemon": "^1.9.2"
   }
 }
