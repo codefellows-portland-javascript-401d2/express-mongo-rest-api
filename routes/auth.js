@@ -1,63 +1,39 @@
 const router = require('express').Router();
-const bodyparser = require('body-parser');
 const User = require('../model/user');
-const mongoose = require('../lib/setup-mongoose');
-
-// mongoose(process.env.M_LAB_MONGO_URI || 'mongodb://localhost/rose-city-rollers');
-
+const token = require('../lib/token');
 
 router
-.post('/signup', bodyparser, (req, res, next) => {
+.post('/signup', (req, res, next) => {
 
-  // req body has user and pass
+  if (!req.body.password){
+    next('Please provide a password');
+    return;
+  }
 
-  // save pass, delete from req.body
-  const user = req.body.user;
+  const username = req.body.username;
   const password = req.body.password;
   delete req.body.password;
 
-  mongoose.findOne( {user: user})
-    .then( existing => {
-      if (existing){
-        next('Error: that user name is already registered');
-      }else{
+  User.findOne( {username: username})
+  .then( existing => {
+    if (existing){
+      next('Error: that user name is already registered');
+    }else{
+      var user = new User( req.body );
+      user.generateHash(password);
 
-        // create new user, with req.body.user
-        var user = new User( req.body );
-
-        // create the salted version of the password with the user.instance method
-        const hash = user.generateHash(pasword);
-
-        // save the User with salted password
-        return user.save()
-        .then( () => {
-
-        })
-        .catch( () => {
-          next('Database failed to save user credentials');
-        })
-      }
-    })
-
-
-
-  });
-
-
-
-  // error handling if user already exists
-
-
-
-
+      return user.save()
+      .then( user =>  token.sign(user))
+      .then( token => res.json({token}))
+      .catch( () => next('Database failed to save user credentials'));
+    }
+  })
+  .catch( () =>  next('Database failed to save user credentials'));
 })
 
-.post('/signin', bodyparser, (req, res) => {
+.post('/signin', (req, res) => {
 
 
 });
-
-
-
 
 module.exports = router;
