@@ -1,7 +1,7 @@
 const handlers =  {};
 
 handlers.json = (req, res, next) => {
-  if (req.is('application/json') || req.headers['content-type'] === 'application/json') {
+  if (req.is('application/json') || req.headers['content-type'] == 'application/json') {
     next();
   } else {
     res
