@@ -1,0 +1,13 @@
+#peopleEntry {
+  float: left;
+  width: 48%;
+}
+
+#locationEntry {
+  float: right;
+  width: 48%;
+}
+
+#lists {
+  clear: both;
+}
