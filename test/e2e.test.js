@@ -1,6 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const config = require('../config');
+const config = require('../lib/config');
 const app = require('../lib/app');
 const database = require('../lib/database');
 const Monster = require('../models/monster.model');

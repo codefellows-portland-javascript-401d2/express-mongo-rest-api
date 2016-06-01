@@ -5,27 +5,27 @@ block content
     div.col-xs-12.col-sm-6.col-sm-offset-3
       ul.nav.nav-tabs.nav-justified(role="tablist")
         li.active(role="presentation")
-          a(href="#signup" role="tab" data-toggle="tab" aria-controls="signup") Create an account
+          a(href="#register" role="tab" data-toggle="tab" aria-controls="register") Create an account
         li(role="presentation")
-          a(href="#signin" role="tab" data-toggle="tab" aria-controls="signin") Log In
+          a(href="#login" role="tab" data-toggle="tab" aria-controls="login") Log In
       div.tab-content
-        div#signup.tab-pane.active(role="tabpanel")
-          form(action="/signup" method="post")
+        div#register.tab-pane.active(role="tabpanel")
+          form(action="/register" method="post")
             div.form-group
-              label(for="signup-username") Username
-              input.form-control(type="input" name="username" id="signup-username" autocomplete="off")
+              label(for="register-username") Username
+              input.form-control(type="input" name="username" id="register-username" autocomplete="off")
             div.form-group
               label(for="password") Password
-              input.form-control(type="password" name="password" id="signup-password" autocomplete="off")
+              input.form-control(type="password" name="password" id="register-password" autocomplete="off")
             div.form-group
-              input.btn.btn-primary(type="submit" value="Sign Up")
-        div#signin.tab-pane(role="tabpanel")
-          form(action="/signin" method="post")
+              input.btn.btn-primary(type="submit" value="Register")
+        div#login.tab-pane(role="tabpanel")
+          form(action="/login" method="post")
             div.form-group
-              label(for="signin-username") Username
-              input.form-control(type="input" name="username" id="signin-username" autocomplete="off")
+              label(for="login-username") Username
+              input.form-control(type="input" name="username" id="login-username" autocomplete="off")
             div.form-group
-              label(for="signin-password") Password
-              input.form-control(type="password" name="password" id="signin-password" autocomplete="off")
+              label(for="login-password") Password
+              input.form-control(type="password" name="password" id="login-password" autocomplete="off")
             div.form-group
-              input.btn.btn-primary(type="submit" value="Sign In")
+              input.btn.btn-primary(type="submit" value="Log In")
