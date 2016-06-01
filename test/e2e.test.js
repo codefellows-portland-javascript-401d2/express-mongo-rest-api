@@ -15,8 +15,8 @@ describe('End to End Testing', () => {
   let request;
 
   before(done => {
-    request = chai.request(app);
     database.connect(DB_URI);
+    request = chai.request(app);
     done();
   });
 
@@ -105,7 +105,7 @@ describe('End to End Testing', () => {
         .set('content-type', 'application/json')
         .end((err, res) => {
           let parsed = JSON.parse(res.text);
-          assert.equal(parsed.result[0].name, 'Mothra');
+          assert.equal(parsed.result.name, 'Mothra');
           done();
         });
     });
@@ -121,7 +121,7 @@ describe('End to End Testing', () => {
             .set('content-type', 'application/json')
             .end((err, res) => {
               let parsed = JSON.parse(res.text);
-              assert.equal(parsed.result[0].citiesRazed, 100);
+              assert.equal(parsed.result.citiesRazed, 100);
               done();
             });
         });
