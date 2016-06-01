@@ -7,11 +7,13 @@ var byId = function(req){
 };
 
 router
-.get('/', (req, res) => {
+.get('/', (req, res, next) => {
   const query = req.query.rank ? {rank: req.query.rank} : {};
   Team.find(query).select('teamName rank')
     .then((teams) => {
       res.json(teams);
+    }).catch( () => {
+      next('Database error, failed to find resources');
     });
 })
 
