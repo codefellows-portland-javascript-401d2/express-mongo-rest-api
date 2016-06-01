@@ -20,7 +20,7 @@ router
   .get('/:name', (req, res, next) => {
     const thisName = req.params.name;
     if (thisName === 'totalDestruction') next();
-    Monster.find({name: thisName})
+    Monster.findOne({name: thisName})
       .then(monster => {
         if (monster.length === 0) {
           res.status(404);
@@ -30,6 +30,8 @@ router
           res.status(200);
           res.json({status: 'success', result: monster});
         }
+      }).catch(err => {
+        res.json({status: 'error', result: err});
       });
   })
 
@@ -55,7 +57,8 @@ router
       .then(data => {
         res.json({status: 'posted', result: data});
       }).catch(err => {
-        var key = Object.keys(err.errors);
+        var key = Object.keys(err.errors)[0];
+        console.log(key);
         res.json({status: 'error', result: err.errors[key].message});
       });   //specific validation errors in res.send()
   })
@@ -68,7 +71,7 @@ router
           res.json({status: 'updated', result: monster});
         })
         .catch(err => {
-          var key = Object.keys(err.errors);
+          var key = Object.keys(err.errors)[0];
           res.json({status: 'error', result: err.errors[key].message});
         });
   })
@@ -81,7 +84,7 @@ router
           res.json({status: 'updated', result: monster});
         })
         .catch(err => {
-          var key = Object.keys(err.errors);
+          var key = Object.keys(err.errors)[0];
           res.json({status: 'error', result: err.errors[key].message});
         });
   })
