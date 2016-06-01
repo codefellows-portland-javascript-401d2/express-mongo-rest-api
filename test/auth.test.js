@@ -11,10 +11,12 @@ const Monster = require('../models/monster.model');
 const User = require('../models/user.model');
 
 describe('Authentication', () => {
-  var request = chai.request(app);
+
+  var request; 
   
   before(done => {
     database.connect(DB_URI);
+    request = chai.request(app);
     User.remove({})
       .then(done());
   });

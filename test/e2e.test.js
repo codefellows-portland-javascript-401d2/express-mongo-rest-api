@@ -23,7 +23,6 @@ describe('End to End Testing', () => {
   describe('Monster', () => {
 
     before(done => {
-      // Wipes collection
       Monster
         .remove({})
         .then(done());
