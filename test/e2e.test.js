@@ -1,23 +1,93 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const config = require('../lib/config');
-const app = require('../lib/app');
 const database = require('../lib/database');
+const app = require('../lib/app');
 const Monster = require('../models/monster.model');
 const User = require('../models/user.model');
 
 const assert = chai.assert;
 
 chai.use(chaiHttp);
+database.connect(config.dbUri);
 
 describe('End to End Testing', () => {
-  database.connect(config.dbUri);
   let request;
+  let token;
+  let user1 = {username: 'user1', password: 'test123'};
 
   before(done => {
-    
     request = chai.request(app);
     done();
+  });
+
+  describe('Authentication', () => {
+    before(done => {
+      User.remove({})
+        .then(done());
+    });
+
+    it ('registers new user on /register', done => {
+      request
+        .post('/register')
+        .send(user1)
+        .end((err, res) => {
+          const actual = JSON.parse(res.text);
+          assert.equal(actual.status, 'success');
+          // assert.equal(actual.result, expected);
+          token = actual.result;
+          done();
+        });
+    });
+
+    it ('error on duplicate username input on /register', done => {
+      const expected = 'Username: user1 already exists';
+      request
+        .post('/register')
+        .send(user1)
+        .end((err, res) => {
+          const actual = JSON.parse(res.text);
+          assert.equal(actual.status, 'error');
+          assert.equal(actual.result, expected);
+          done();
+        });
+    });
+
+    it ('user success on /login', done => {
+      request
+        .post('/login')
+        .send(user1)
+        .end((err, res) => {
+          const actual = JSON.parse(res.text);
+          assert.equal(actual.status, 'success');
+          done();
+        });
+    });
+
+    it ('error on password mismatch on /login', done => {
+      request
+        .post('/login')
+        .send({username: 'user1', password: 'wrong'})
+        .end((err, res) => {
+          const actual = JSON.parse(res.text);
+          assert.equal(actual.status, 'error');
+          assert.equal(actual.result, 'Forbidden');
+          done();
+        });
+    });
+
+    it ('error on bad username on /login', done => {
+      request
+        .post('/login')
+        .send({username: 'not_a_user', password: 'test123'})
+        .end((err, res) => {
+          const actual = JSON.parse(res.text);
+          assert.equal(actual.status, 'error');
+          assert.equal(actual.result, 'Username Not Found');
+          done();
+        });
+    });
+
   });
 
   describe('Monster', () => {
@@ -33,6 +103,7 @@ describe('End to End Testing', () => {
       request
         .post('/monsters')
         .set('content-type', 'application/json')
+        .set('token', token)
         .send({name: monster, citiesRazed: 25})
         .end((err, res) => {
           let resObj = JSON.parse(res.text);
@@ -46,11 +117,13 @@ describe('End to End Testing', () => {
       request
         .post('/monsters')
         .set('content-type', 'application/json')
+        .set('token', token)
         .send({name: monster, citiesRazed: 50})
         .then(() => {
           request
             .get('/monsters')
             .set('content-type', 'application/json')
+            .set('token', token)
             .end((err, res) => {
               let parse = JSON.parse(res.text);
               assert.equal(parse.result.length, 2);
@@ -64,6 +137,7 @@ describe('End to End Testing', () => {
       request
         .get('/monsters/totalDestruction')
         .set('content-type', 'application/json')
+        .set('token', token)
         .end((err, res) => {
           let parse = JSON.parse(res.text);
           let resTotal = parse.result.total_cities_razed;
@@ -77,6 +151,7 @@ describe('End to End Testing', () => {
       request
         .post('/monsters')
         .set('content-type', 'application/json')
+        .set('token', token)
         .send({'citiesRazed': 300})
         .end((err, res) => {
           let parsed = JSON.parse(res.text);
@@ -90,6 +165,7 @@ describe('End to End Testing', () => {
       request
         .post('/monsters')
         .set('content-type', 'application/json')
+        .set('token', token)
         .send({'name': 'Zilla', 'citiesRazed': -1})
         .end((err, res) => {
           let parsed = JSON.parse(res.text);
@@ -102,6 +178,7 @@ describe('End to End Testing', () => {
       request
         .get('/monsters/Mothra')
         .set('content-type', 'application/json')
+        .set('token', token)
         .end((err, res) => {
           let parsed = JSON.parse(res.text);
           assert.equal(parsed.result.name, 'Mothra');
@@ -113,11 +190,13 @@ describe('End to End Testing', () => {
       request
         .put('/monsters/Destroyah')
         .set('content-type', 'application/json')
+        .set('token', token)
         .send({citiesRazed: 100})
         .then(() => {
           request
             .get('/monsters/Destroyah')
             .set('content-type', 'application/json')
+            .set('token', token)
             .end((err, res) => {
               let parsed = JSON.parse(res.text);
               assert.equal(parsed.result.citiesRazed, 100);
@@ -131,14 +210,17 @@ describe('End to End Testing', () => {
       request
         .del('/monsters/Destroyah')
         .set('content-type', 'application/json')
+        .set('token', token)
         .then(() => {
           request
             .del('/monsters/Mothra')
             .set('content-type', 'application/json')
+            .set('token', token)
             .then(() => {
               request
                 .get('/monsters')
                 .set('content-type', 'application/json')
+                .set('token', token)
                 .end((err, res) => {
                   let parsed = JSON.parse(res.text);
                   assert.equal(parsed.result, expected);
@@ -152,13 +234,6 @@ describe('End to End Testing', () => {
 
   describe('User', () => {
 
-    before(done => {
-      // Wipes collection
-      User
-        .remove({})
-        .then(done());
-    });
-
     it('Posts one user to users collection', done => {
       let myUserName = 'Johnny';
       let myPassword = '123';
@@ -166,6 +241,7 @@ describe('End to End Testing', () => {
       request
         .post('/users')
         .set('content-type', 'application/json')
+        .set('token', token)
         .send({
           username: myUserName,
           password: myPassword
@@ -189,13 +265,14 @@ describe('End to End Testing', () => {
         });
     });
 
-    it('Posts another user and gets two users', done => {
+    it('Posts another user and gets three users', done => {
       let myUserName = 'Don';
       let myPassword = 'abc';
 
       request
         .post('/users')
         .set('content-type', 'application/json')
+        .set('token', token)
         .send({
           username: myUserName,
           password: myPassword
@@ -204,10 +281,11 @@ describe('End to End Testing', () => {
           request
             .get('/users')
             .set('content-type', 'application/json')
+            .set('token', token)
             .end((err, res) => {
               let resObj = JSON.parse(res.text);
 
-              assert.equal(resObj.result.length, 2);
+              assert.equal(resObj.result.length, 3);
 
               done();
             });
@@ -218,6 +296,7 @@ describe('End to End Testing', () => {
       request
         .get('/users')
         .set('content-type', 'application/json')
+        .set('token', token)
         .then(res => {
           let resObj = JSON.parse(res.text);
 
@@ -245,6 +324,7 @@ describe('End to End Testing', () => {
       request
         .post('/users')
         .set('content-type', 'application/json')
+        .set('token', token)
         .send({'password': 'secret123'})
         .end((err, res) => {
           let resObj = JSON.parse(res.text);
@@ -259,8 +339,8 @@ describe('End to End Testing', () => {
       request
         .get('/users/johnny')
         .set('content-type', 'application/json')
+        .set('token', token)
         .end((err, res) => {
-
           let resObj = JSON.parse(res.text);
 
           assert.equal(resObj.result.username, 'Johnny');
@@ -269,45 +349,56 @@ describe('End to End Testing', () => {
         });
     });
 
-    // it('Puts "Destroyah" in favoriteMonsters array', done => {
-    //   request
-    //     .put('/users/Johnny')
-    //     .set('content-type', 'application/json')
-    //     .send({
-    //       favoriteMonsters: 'Destroyah'
-    //     })
-    //     .then(() => {
-    //       request
-    //         .get('/users/johnny')
-    //         .set('content-type', 'application/json')
-    //         .end((err, res) => {
-    //           let resObj = JSON.parse(res.text);
-
-    //           assert.deepEqual(resObj.result.favoriteMonsters, ['Destroyah']);
-
-    //           done();
-    //         });
-    //     });
-    // });
-
-    it('Deletes one user, then the other', done => {
+    it('Puts "jluangphasy" as new username for johnny', done => {
       request
-        .del('/users/johnny')
+        .put('/users/Johnny')
         .set('content-type', 'application/json')
+        .set('token', token)
+        .send({
+          username: 'jluangphasy'
+        })
+        .then(() => {
+          request
+            .get('/users/jluangphasy')
+            .set('content-type', 'application/json')
+            .set('token', token)
+            .end((err, res) => {
+              let resObj = JSON.parse(res.text);
+
+              assert.equal(resObj.result.username, 'jluangphasy');
+
+              done();
+            });
+        });
+    });
+
+    it('Deletes one user, then all of the others', done => {
+      request
+        .del('/users/jluangphasy')
+        .set('content-type', 'application/json')
+        .set('token', token)
         .then(() => {
           request
             .del('/users/don')
             .set('content-type', 'application/json')
+            .set('token', token)
             .then(() => {
               request
-                .get('/users')
+                .del(`/users/${user1.username}`)
                 .set('content-type', 'application/json')
-                .end((err, res) => {
-                  let resObj = JSON.parse(res.text);
+                .set('token', token)
+                .then(() => {
+                  request
+                    .get('/users')
+                    .set('content-type', 'application/json')
+                    .set('token', token)
+                    .end((err, res) => {
+                      let resObj = JSON.parse(res.text);
 
-                  assert.equal(resObj.result, 'There are no users yet. Post here to start adding some.');
+                      assert.equal(resObj.result, 'There are no users yet. Post here to start adding some.');
 
-                  done();
+                      done();
+                    });
                 });
             });
         });

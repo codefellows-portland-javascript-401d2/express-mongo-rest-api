@@ -24,17 +24,17 @@ router
         res.json(resObj);
       });
   })
-  .get('/:name', (req, res) => {
+  .get('/:username', (req, res) => {
     User
       .findOne({
         username: {
-          $regex: regex.new(req.params.name)
+          $regex: regex.new(req.params.username)
         }
       })
       .then(user => {
         let resObj = {
           status: 'error',
-          result: `RESOURCE NOT FOUND: ${req.params.name} does not exist.`
+          result: `RESOURCE NOT FOUND: ${req.params.username} does not exist.`
         };
 
         if (user) {
@@ -65,10 +65,10 @@ router
         });
       });
   })
-  .put('/:name', (req, res) => {
+  .put('/:username', (req, res) => {
     User
       .findOneAndUpdate(
-        { name: req.params.name},
+        { username: req.params.username},
         req.body,
         { new: true, upsert: true, runValidators: true }
       )
@@ -87,10 +87,10 @@ router
         });
       });
   })
-  .patch('/:name', (req, res) => {
+  .patch('/:username', (req, res) => {
     User
       .findOneAndUpdate(
-        { name: req.params.name},
+        { username: req.params.username},
         req.body,
         { new: true, upsert: true, runValidators: true }
       )
@@ -109,10 +109,10 @@ router
         });
       });
   })
-  .delete('/:name', (req, res) => {
+  .delete('/:username', (req, res) => {
     User
       .findOneAndRemove({
-        username: regex.new(req.params.name)
+        username: regex.new(req.params.username)
       })
       .then(user => {
         let resObj = {

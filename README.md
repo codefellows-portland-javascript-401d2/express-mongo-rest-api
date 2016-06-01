@@ -40,9 +40,9 @@ Format: {username: *String*, password: *String*}
 POST /login
 ```
 
-
 ### Monsters
 * Must be signed in as a registered user to make requests
+* The headers or params (query) requires a token
 
 #### Get all monsters
 
@@ -84,6 +84,8 @@ DELETE /monsters/:name
 ```
 
 ### Users
+* Must be signed in as a registered user to make requests
+* The headers or params (query) requires a token.
 
 #### Get all users
 
@@ -94,29 +96,28 @@ GET /users
 #### Get single user
 
 ```
-GET /users/:name
+GET /users/:username
 ```
 
 #### Create user
-Format: {name: *string*, favoriteMonsters: *array*}
-* Name field required
+Format: {username: *string*, password: *string*}
+* Username and password field required
 
 ```
 POST /users
-
 ```
 
 #### Update user
 
 ```
-PUT /users/:name
-PATCH /users/:name
+PUT /users/:username
+PATCH /users/:username
 ```
 
 #### Remove user
 
 ```
-DELETE /users/:name
+DELETE /users/:username
 ```
 
 ## Tests
