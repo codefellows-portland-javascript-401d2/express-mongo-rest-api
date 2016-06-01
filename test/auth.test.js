@@ -20,7 +20,7 @@ describe('Authentication', () => {
   });
   
   it ('registers new user on /signup', done => {
-    const user1 = {"username": "user1", "password": "test123"};
+    const user1 = {'username': 'user1', 'password': 'test123'};
     const expected = 'user: user1 created';
     request
       .post('/signup')
@@ -34,7 +34,7 @@ describe('Authentication', () => {
   });
   
   it ('error on duplicate username input on /signup', done => {
-    const user1 = {"username": "user1", "password": "test123"};
+    const user1 = {'username': 'user1', 'password': 'test123'};
     const expected = 'Username: user1 already exists';
     request
       .post('/signup')
@@ -48,7 +48,7 @@ describe('Authentication', () => {
   });
   
   it ('user success on /signin', done => {
-    const user1 = {"username": "user1", "password": "test123"};
+    const user1 = {'username': 'user1', 'password': 'test123'};
     request
       .post('/signin')
       .send(user1)
@@ -60,7 +60,7 @@ describe('Authentication', () => {
   });
   
   it ('error on password mismatch on /signin', done => {
-    const user1 = {"username": "user1", "password": "wrong"};
+    const user1 = {'username': 'user1', 'password': 'wrong'};
     request
       .post('/signin')
       .send(user1)
@@ -73,7 +73,7 @@ describe('Authentication', () => {
   });
   
   it ('error on bad username on /signin', done => {
-    const user1 = {"username": "not_a_user", "password": "test123"};
+    const user1 = {'username': 'not_a_user', 'password': 'test123'};
     request
       .post('/signin')
       .send(user1)
