@@ -2,6 +2,31 @@
 
 Written with Express, MongoDB, and Mongoose
 
+### Authentication
+
+Access to data requires a successful login.
+
+`POST /signup` submit a JSON object with username and password to register a new user
+`POST /signin` login using an existing user
+
+Upon successful sign up or sing in, a user token will be returned. Be sure to include the token in subsequent calls either in the header or as a query in the url.
+
+As a URL query
+`?token=`_token value_
+
+In the header
+key = token, value = _token value_
+
+### users
+### Model sample
+```
+{
+  "username": "myName",
+  "password": "myPassword",
+  "roles": ["optionRole"]
+}
+```
+
 ### match
 `/match` enter winning and losing team IDs as PATCH request to increment teams' win/loss records
 
@@ -40,6 +65,9 @@ Written with Express, MongoDB, and Mongoose
 Note: team rank and win/loss record taken from 2016 season data
 
 ### skaters
+
+Access to skater information is limited to users with _coach_ specified as a user role.
+
 ##### Model Sample
 ```
 {
