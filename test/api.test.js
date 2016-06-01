@@ -18,7 +18,8 @@ describe('End to End test', () => {
   var user1Token = '';
   const user1 = {
     username: 'Beth',
-    password: 'monstertrucks'
+    password: 'monstertrucks',
+    roles: ['coach']
   };
 
   var skater1ID = '';

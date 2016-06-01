@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const User = require('../model/user.js');
-const bodyParser = require('body-parser').json();
 
 router
   .post('/:userId/roles/:role', (req, res) => {
