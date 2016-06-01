@@ -6,7 +6,7 @@ router
 .post('/signup', (req, res, next) => {
 
   if (!req.body.password){
-    next('Please provide a password');
+    next({status: 401, msg:'401 Unauthorized: Please provide a password'});
     return;
   }
 
@@ -17,7 +17,7 @@ router
   User.findOne( {username: username})
   .then( existing => {
     if (existing){
-      next('Error: that user name is already registered');
+      next({status: 401, msg:'401 Unauthorized: That user name is already registered'});
     }else{
       var user = new User( req.body );
       user.generateHash(password);
@@ -25,16 +25,16 @@ router
       return user.save()
       .then( user =>  token.sign(user))
       .then( token => res.json({token}))
-      .catch( () => next('Database failed to save user credentials'));
+      .catch( () => next({status: 500, msg:'500 Internal Server Error: Failed to save user credentials'}));
     }
   })
-  .catch( () =>  next('Database failed to save user credentials'));
+  .catch( () =>  next({status: 500, msg:'500 Internal Server Error: Failed to save user credentials'}));
 })
 
 .post('/signin', (req, res, next) => {
 
   if (!req.body.password){
-    next('Please provide a password');
+    next({status: 401, msg:'401 Unauthorized: Please provide a password'});
     return;
   }
 
@@ -46,12 +46,12 @@ router
   .then( user => {
 
     if (!user){
-      next ('Failed to find that username and password');
+      next ({status: 401, msg:'401 Unauthorized: Failed to find that username and password'});
       return;
     }
 
     if (!user.compareHash(password)){
-      next ('Failed to find that username and password');
+      next ({status: 401, msg:'401 Unauthorized: Failed to find that username and password'});
       return;
     }
 
@@ -59,7 +59,7 @@ router
     .then( token => res.json({token}));
   })
   .catch( () => {
-    next('Error 500: Database failed to validate user');
+    next({status: 500, msg:'500 Internal Server Error: Failed to validate credentials'});
   });
 });
 

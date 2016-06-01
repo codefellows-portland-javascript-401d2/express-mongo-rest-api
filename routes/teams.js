@@ -6,6 +6,14 @@ var byId = function(req){
   return {_id: req.params.id};
 };
 
+function parseValidationMessage (err){
+  var errorMessage = 'Error in your JSON input:\n';
+  for (var i=0; i< Object.keys(err.errors).length; i++){
+    errorMessage += err.errors[Object.keys(err.errors)[i]].message + '\n';
+  }
+  return {status: 400, msg:'400 Bad Request: ' + errorMessage};
+}
+
 router
 .get('/', (req, res, next) => {
   const query = req.query.rank ? {rank: req.query.rank} : {};
@@ -13,7 +21,7 @@ router
     .then((teams) => {
       res.json(teams);
     }).catch( () => {
-      next('Database error, failed to find resources');
+      next({status: 500, msg:'500 Internal Server Error: Failed retrieve resources'});
     });
 })
 
@@ -23,7 +31,7 @@ router
       res.json(team);
     })
     .catch( () => {
-      next('Failed to find a matching team ID');
+      next({status: 400, msg:'400 Bad Request: Failed to find a matching team ID'});
     });
 })
 
@@ -33,7 +41,7 @@ router
       res.json(skaters);
     })
     .catch( () => {
-      next('Error: No skaters found');
+      next({status: 400, msg:'400 Bad Request: No skaters found'});
     });
 })
 
@@ -43,7 +51,7 @@ router
       res.json(team);
     })
     .catch( () => {
-      next('Failed to find a matching team ID');
+      next({status: 400, msg:'400 Bad Request: Failed to find a matching team ID'});
     });
 })
 
@@ -53,7 +61,7 @@ router
       res.send(`${team.teamName} has been removed from the database.`);
     })
     .catch(() => {
-      next('Failed to find a matching skater ID');
+      next({status: 400, msg:'400 Bad Request: Failed to find a matching team ID'});
     });
 })
 
@@ -63,7 +71,7 @@ router
       res.json(team);
     })
     .catch( err =>{
-      next(err);
+      next(parseValidationMessage(err));
     });
 });
 

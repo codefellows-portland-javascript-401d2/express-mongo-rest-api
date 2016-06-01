@@ -11,7 +11,7 @@ function parseValidationMessage (err){
   for (var i=0; i< Object.keys(err.errors).length; i++){
     errorMessage += err.errors[Object.keys(err.errors)[i]].message + '\n';
   }
-  return errorMessage;
+  return {status: 400, msg:'400 Bad Request: ' + errorMessage};
 }
 
 router
@@ -22,7 +22,7 @@ router
       .then((skaters) => {
         res.json(skaters);
       }).catch( () => {
-        next('Database error, failed to find resources');
+        next({status: 500, msg:'500 Internal Server Error: Failed retrieve resources'});
       });
   })
 
@@ -32,7 +32,7 @@ router
         res.json(skaters);
       })
       .catch( () => {
-        next('Failed to find a matching skater ID');
+        next({status: 400, msg:'400 Bad Request: Failed to find a matching skater ID'});
       });
   })
 
@@ -42,7 +42,7 @@ router
         res.json(skaters);
       })
       .catch( () => {
-        next('Failed to find a matching skater ID');
+        next({status: 400, msg:'400 Bad Request: Failed to find a matching skater ID'});
       });
   })
 
@@ -52,7 +52,7 @@ router
         res.send(`${skaters.name} has been removed from the database.`);
       })
       .catch(() => {
-        next('Failed to find a matching skater ID');
+        next({status: 400, msg:'400 Bad Request: Failed to find a matching skater ID'});
       });
   })
 
