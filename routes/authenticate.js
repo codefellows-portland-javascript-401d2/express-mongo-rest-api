@@ -4,7 +4,7 @@ const jsonParser = require('body-parser').json();
 const User = require('../models/user.model');
 
 router
-  .post('/signup', jsonParser, (req, res) => {
+  .post('/register', jsonParser, (req, res) => {
     
     const input = {
       username: req.body.username, 
@@ -36,7 +36,7 @@ router
   });
   
 router
-  .post('/signin', jsonParser, (req, res) => {
+  .post('/login', jsonParser, (req, res) => {
     
     const input = {
       username: req.body.username,

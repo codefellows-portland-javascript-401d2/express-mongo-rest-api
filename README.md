@@ -23,7 +23,26 @@ __Team Members__: [Don](https://github.com/DonChatelain), [Johnny](https://githu
 
 All requests must have `application/json` for `content-type` in the headers.
 
+### Register
+Format: {username: *String*, password: *String* [, admin: *Boolean*]}
+* username must be unique; both fields are required
+* *admin: true* will allow PUT
+
+```
+POST /register
+```
+
+### Login
+Format: {username: *String*, password: *String*}
+* both fields are required
+
+```
+POST /login
+```
+
+
 ### Monsters
+* Must be signed in as a registered user to make requests
 
 #### Get all monsters
 

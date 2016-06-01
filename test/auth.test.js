@@ -19,11 +19,11 @@ describe('Authentication', () => {
       .then(done());
   });
   
-  it ('registers new user on /signup', done => {
+  it ('registers new user on /register', done => {
     const user1 = {"username": "user1", "password": "test123"};
     const expected = 'user: user1 created';
     request
-      .post('/signup')
+      .post('/register')
       .send(user1)
       .end((err, res) => {
         const actual = JSON.parse(res.text);
@@ -33,11 +33,11 @@ describe('Authentication', () => {
       });
   });
   
-  it ('error on duplicate username input on /signup', done => {
+  it ('error on duplicate username input on /register', done => {
     const user1 = {"username": "user1", "password": "test123"};
     const expected = 'Username: user1 already exists';
     request
-      .post('/signup')
+      .post('/register')
       .send(user1)
       .end((err, res) => {
         const actual = JSON.parse(res.text);
@@ -47,10 +47,10 @@ describe('Authentication', () => {
       });
   });
   
-  it ('user success on /signin', done => {
+  it ('user success on /login', done => {
     const user1 = {"username": "user1", "password": "test123"};
     request
-      .post('/signin')
+      .post('/login')
       .send(user1)
       .end((err, res) => {
         const actual = JSON.parse(res.text);
@@ -59,10 +59,10 @@ describe('Authentication', () => {
       });
   });
   
-  it ('error on password mismatch on /signin', done => {
+  it ('error on password mismatch on /login', done => {
     const user1 = {"username": "user1", "password": "wrong"};
     request
-      .post('/signin')
+      .post('/login')
       .send(user1)
       .end((err, res) => {
         const actual = JSON.parse(res.text);
@@ -72,10 +72,10 @@ describe('Authentication', () => {
       });
   });
   
-  it ('error on bad username on /signin', done => {
+  it ('error on bad username on /login', done => {
     const user1 = {"username": "not_a_user", "password": "test123"};
     request
-      .post('/signin')
+      .post('/login')
       .send(user1)
       .end((err, res) => {
         const actual = JSON.parse(res.text);
