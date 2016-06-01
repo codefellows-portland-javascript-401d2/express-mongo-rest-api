@@ -19,6 +19,7 @@ router
 
         const newUser = new User({username: input.username});
         newUser.makeHash(input.password);
+        delete input.password;
         return newUser.save()
           .then(user => {
             token.sign(user)
@@ -54,10 +55,15 @@ router
 
     User.findOne({username: input.username})
       .then(foundUser => {
-        if (foundUser === null) return res.status(400).json({status: 'error', result: 'Username Not Found'});
+        if (foundUser === null) {
+          delete input.password;
+          return res.status(400).json({status: 'error', result: 'Username Not Found'});
+        }
         if (foundUser.checkHash(input.password) == false) {
+          delete input.password;
           return res.status(403).json({status: 'error', result: 'Forbidden'});
         }
+        delete input.password;
         token.sign(foundUser)
               .then(token => {
                 res.json({status: 'success', result: token});
