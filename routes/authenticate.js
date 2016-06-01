@@ -21,14 +21,14 @@ router
         newUser.makeHash(input.password);
         return newUser.save()
           .then(user => {
-            // token.sign(user)
-            //   .then(token => {
-            //     res.json({status: 'success', result: token});
-            //   })
-            //   .catch(err => {
-            //     res.json({status: 'error', result: err});
-            //   });
-            res.json({status: 'success', result: `user: ${user.username} created`});
+            token.sign(user)
+              .then(token => {
+                res.json({status: 'success', result: token});
+              })
+              .catch(err => {
+                res.json({status: 'error', result: err});
+              });
+            // res.json({status: 'success', result: `user: ${user.username} created`});
           })
           .catch(err => {
             res.status(400);
@@ -58,14 +58,14 @@ router
         if (foundUser.checkHash(input.password) == false) {
           return res.status(403).json({status: 'error', result: 'Forbidden'});
         }
-        // token.sign(user)
-        //       .then(token => {
-        //         res.json({status: 'success', result: token});
-        //       })
-        //       .catch(err => {
-        //         res.json({status: 'error', result: err});
-        //       });
-        res.json({status: 'success', result: 'LOGGED IN BB!'});
+        token.sign(foundUser)
+              .then(token => {
+                res.json({status: 'success', result: token});
+              })
+              .catch(err => {
+                res.json({status: 'error', result: err});
+              });
+        // res.json({status: 'success', result: 'LOGGED IN BB!'});
       })
       .catch(err => {
         res.json({status: 'error', result: err});
