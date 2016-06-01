@@ -58,7 +58,6 @@ router
         res.json({status: 'posted', result: data});
       }).catch(err => {
         var key = Object.keys(err.errors)[0];
-        console.log(key);
         res.json({status: 'error', result: err.errors[key].message});
       });   //specific validation errors in res.send()
   })

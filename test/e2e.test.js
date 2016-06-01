@@ -11,11 +11,11 @@ const assert = chai.assert;
 chai.use(chaiHttp);
 
 describe('End to End Testing', () => {
-
+  database.connect(config.dbUri);
   let request;
 
   before(done => {
-    database.connect(config.DB_URI);
+    
     request = chai.request(app);
     done();
   });
