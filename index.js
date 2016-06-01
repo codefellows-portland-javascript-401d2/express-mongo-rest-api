@@ -1,11 +1,9 @@
-const app = require('./server/app');
-const database = require('./server/lib/database');
+const config = require('./lib/config');
+const app = require('./lib/app');
+const database = require('./lib/database');
 
-const PORT = process.env.PORT || 8080;
-const DB_URI = process.env.DB_URI || 'mongodb://localhost/godzilla';
+database.connect(config.dbUri);
 
-app.listen(PORT, () => {
-  console.log(`Server started on http://localhost:${PORT}/`);
-
-  database.connect(DB_URI);
+app.listen(config.port, () => {
+  console.log(`Server started on http://localhost:${config.port}/`);
 });

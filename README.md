@@ -23,7 +23,26 @@ __Team Members__: [Don](https://github.com/DonChatelain), [Johnny](https://githu
 
 All requests must have `application/json` for `content-type` in the headers.
 
+### Register
+Format: {username: *String*, password: *String* [, admin: *Boolean*]}
+* username must be unique; both fields are required
+* *admin: true* will allow PUT
+
+```
+POST /register
+```
+
+### Login
+Format: {username: *String*, password: *String*}
+* both fields are required
+
+```
+POST /login
+```
+
 ### Monsters
+* Must be signed in as a registered user to make requests
+* The headers or params (query) requires a token
 
 #### Get all monsters
 
@@ -65,6 +84,8 @@ DELETE /monsters/:name
 ```
 
 ### Users
+* Must be signed in as a registered user to make requests
+* The headers or params (query) requires a token.
 
 #### Get all users
 
@@ -75,29 +96,28 @@ GET /users
 #### Get single user
 
 ```
-GET /users/:name
+GET /users/:username
 ```
 
 #### Create user
-Format: {name: *string*, favoriteMonsters: *array*}
-* Name field required
+Format: {username: *string*, password: *string*}
+* Username and password field required
 
 ```
 POST /users
-
 ```
 
 #### Update user
 
 ```
-PUT /users/:name
-PATCH /users/:name
+PUT /users/:username
+PATCH /users/:username
 ```
 
 #### Remove user
 
 ```
-DELETE /users/:name
+DELETE /users/:username
 ```
 
 ## Tests

@@ -32,11 +32,21 @@ describe('Unit Testing', () => {
 
   describe('User Model', () => {
 
-    it('Validates required name field', done => {
-      var nameless = new User();
-      var expected = 'Path `name` is required.';
-      nameless.validate((err) => {
-        var message = err.errors.name.message;
+    it('Validates required username field', done => {
+      var noUser = new User({password: 'abc123'});
+      var expected = 'Path `username` is required.';
+      noUser.validate((err) => {
+        var message = err.errors.username.message;
+        assert.equal(message, expected);
+        done();
+      });
+    });
+    
+    it('Validates required password field', done => {
+      var noPass = new User({username: 'user123'});
+      var expected = 'Path `password` is required.';
+      noPass.validate((err) => {
+        var message = err.errors.password.message;
         assert.equal(message, expected);
         done();
       });
